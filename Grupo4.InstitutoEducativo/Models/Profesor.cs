@@ -1,18 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Grupo4.InstitutoEducativo.Models
 {
     public class Profesor
     {
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public int Legajo { get; set; }
-        public List<Materia> MateriasAplicables { get; set; }
+        [Key]
+        public int Id { get; set; }
 
-        public Profesor()
+        [Required]
+        public string Nombre { get; set; }
+
+        [Required]
+        public string Apellido { get; set; }
+
+        [Required]
+        public int Legajo { get; set; }
+
+        public List<ProfesorMateria> MateriasAplicables { get; set; }
+
+        [NotMapped]
+        public string NombreApellido
         {
-            MateriasAplicables = new List<Materia>();
+            get {
+                return $"{Nombre} {Apellido}";
+            }
+            
         }
     }
 }

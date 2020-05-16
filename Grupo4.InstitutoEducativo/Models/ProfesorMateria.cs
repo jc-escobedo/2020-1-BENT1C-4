@@ -5,22 +5,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Grupo4.InstitutoEducativo.Models
 {
-    public class MateriaCursada
+    public class ProfesorMateria
     {
+
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public string Nombre { get; set; }
+        [Display(Name = "Profesor")]
+        [ForeignKey("Profesor")]
+        public int ProfesorId { get; set; }
+        public Profesor Profesor { get; set; }
 
+        [Display(Name = "Materia")]
         [ForeignKey("Materia")]
         public int MateriaId { get; set; }
         public Materia Materia { get; set; }
-
-        public List<MateriaCursadaAlumno> Alumnos { get; set; }
-
-
-        
-
     }
 }

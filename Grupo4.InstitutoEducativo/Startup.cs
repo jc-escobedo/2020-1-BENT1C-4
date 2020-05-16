@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using UsandoEntityFramework.Database;
 
 namespace Grupo4.InstitutoEducativo
 {
@@ -32,6 +34,11 @@ namespace Grupo4.InstitutoEducativo
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+
+            // services.AddDbContext<UsandoEFDbContext>(options => 
+            //     options.UseSqlServer("Server=TL-DEV-63\\SQLEXPRESS;Database=alumnos;Integrated Security=SSPI;"));
+            services.AddDbContext<UsandoEFDbContext>(options => options.UseInMemoryDatabase("unaBaseDeDatos"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

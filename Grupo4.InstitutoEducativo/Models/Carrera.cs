@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Grupo4.InstitutoEducativo.Models
 {
     public class Carrera
     {
-        public List<Materia> Materias { get; set; }
+        [Key]
+        public int Id { get; set; }
 
-        public Carrera()
-        {
-            Materias = new List<Materia>();
-        }
+        [Required]
+        public string Nombre { get; set; }
+
+        public List<Materia> Materias { get; set; }
     }
 }
