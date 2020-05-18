@@ -24,7 +24,9 @@ namespace Grupo4.InstitutoEducativo.Models
         [RegularExpression("[0-9][0-9][0-9][0-9][0-9]", ErrorMessage = "El número de legajo deben ser 5 numeros")]
         public int Legajo { get; set; }
 
+      
         [ForeignKey("Carrera")]
+        [Display(Name = "Carrera")]
         public int CarreraId { get; set; }
         public Carrera Carrera { get; set; }
 

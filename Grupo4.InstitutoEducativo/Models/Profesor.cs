@@ -19,9 +19,11 @@ namespace Grupo4.InstitutoEducativo.Models
         [Required]
         public int Legajo { get; set; }
 
+        [Display(Name = "Materias aplicables")]
         public List<ProfesorMateria> MateriasAplicables { get; set; }
 
         [NotMapped]
+        [Display(Name = "Nombre y apellido")]
         public string NombreApellido
         {
             get {
