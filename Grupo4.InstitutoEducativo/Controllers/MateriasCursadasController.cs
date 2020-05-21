@@ -22,7 +22,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
         // GET: MateriasCursadas
         public async Task<IActionResult> Index()
         {
-            var usandoEFDbContext = _context.MateriaCursada.Include(m => m.Materia);
+            var usandoEFDbContext = _context.MateriaCursada.Include(m => m.Materia).Include(p => p.Profesor);
             return View(await usandoEFDbContext.ToListAsync());
         }
 
@@ -36,6 +36,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
 
             var materiaCursada = await _context.MateriaCursada
                 .Include(m => m.Materia)
+                .Include(p => p.Profesor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (materiaCursada == null)
             {
@@ -49,6 +50,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
         public IActionResult Create()
         {
             ViewData["MateriaId"] = new SelectList(_context.Materia, "Id", "Nombre");
+            ViewData["ProfesorId"] = new SelectList(_context.Profesor, "Id", "Nombre");
             return View();
         }
 
@@ -57,7 +59,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,MateriaId")] MateriaCursada materiaCursada)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,MateriaId,ProfesorId")] MateriaCursada materiaCursada)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +68,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["MateriaId"] = new SelectList(_context.Materia, "Id", "Nombre", materiaCursada.MateriaId);
+            ViewData["ProfesorId"] = new SelectList(_context.Profesor, "Id", "Nombre", materiaCursada.ProfesorId);
             return View(materiaCursada);
         }
 

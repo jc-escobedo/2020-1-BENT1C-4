@@ -17,10 +17,18 @@ namespace Grupo4.InstitutoEducativo.Models
         public int MateriaId { get; set; }
         public Materia Materia { get; set; }
 
+        [Display(Name = "Profesor")]
+        [ForeignKey("Profesor")]
+        public int ProfesorId { get; set; }
+        public Profesor Profesor { get; set; }
+
         public List<MateriaCursadaAlumno> Alumnos { get; set; }
 
-
-        
+        [NotMapped]
+        public string qAlumnos
+        {
+            
+        }
 
     }
 }
