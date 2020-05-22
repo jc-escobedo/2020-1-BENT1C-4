@@ -13,12 +13,16 @@ namespace Grupo4.InstitutoEducativo.Models
 
         [Display(Name = "Profesor")]
         [ForeignKey("Profesor")]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer Number")]
         public int ProfesorId { get; set; }
+
         public Profesor Profesor { get; set; }
 
         [Display(Name = "Materia")]
         [ForeignKey("Materia")]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer Number")]
         public int MateriaId { get; set; }
+
         public Materia Materia { get; set; }
     }
 }

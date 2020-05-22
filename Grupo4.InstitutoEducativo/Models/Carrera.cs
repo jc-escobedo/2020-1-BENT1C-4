@@ -9,7 +9,10 @@ namespace Grupo4.InstitutoEducativo.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "La propiedad Nombre es requerida")]
+        [MaxLength(100, ErrorMessage = "La longitud máxima de un Nombre es de 100 caracteres")]
+        [MinLength(2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
+        [RegularExpression(@"[a-zA-Z áéíóú]*", ErrorMessage = "El campo admite sólo caracteres alfabéticos")]
         public string Nombre { get; set; }
 
         public List<Materia> Materias { get; set; }
