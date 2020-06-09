@@ -15,6 +15,6 @@ namespace Grupo4.InstitutoEducativo.Models
         [RegularExpression(@"[a-zA-Z áéíóú]*", ErrorMessage = "El campo admite sólo caracteres alfabéticos")]
         public string Nombre { get; set; }
 
-        public List<Materia> Materias { get; set; }
+        public List<CarreraMateria> Materias { get; set; }
     }
 }

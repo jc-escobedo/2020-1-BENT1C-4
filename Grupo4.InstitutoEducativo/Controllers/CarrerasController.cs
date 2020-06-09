@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupo4.InstitutoEducativo.Models;
 using UsandoEntityFramework.Database;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Grupo4.InstitutoEducativo.Controllers
 {
@@ -46,6 +47,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
         // GET: Carreras/Create
         public IActionResult Create()
         {
+            ViewData["MateriasId"] = new MultiSelectList(_context.Materia, nameof(Materia.Id), nameof(Materia.Nombre));
             return View();
         }
 
@@ -54,30 +56,46 @@ namespace Grupo4.InstitutoEducativo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre")] Carrera carrera)
+        public async Task<IActionResult> Create([Bind("Id,Nombre")] Carrera carrera, List<int> materiaIds)
         {
+            ValidarMaterias(materiaIds);
+
             if (ModelState.IsValid)
             {
+                carrera.Materias = new List<CarreraMateria>();
+
+                foreach(var materiaId in materiaIds)
+                {
+                    carrera.Materias.Add(new CarreraMateria { Carrera = carrera, MateriaId = materiaId });
+                }
                 _context.Add(carrera);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["MateriasId"] = new MultiSelectList(_context.Materia, "Id", "Nombre", materiaIds);
             return View(carrera);
         }
 
         // GET: Carreras/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var carrera = await _context.Carrera.FindAsync(id);
+            var carrera =  _context
+                .Carrera
+                .Include(x => x.Materias)
+                .FirstOrDefault(x => x.Id == id);
+
             if (carrera == null)
             {
                 return NotFound();
             }
+
+            ViewData["MateriasId"] = new MultiSelectList(_context.Materia, "Id", "Nombre", carrera.Materias.Select(x => x.MateriaId).ToList());
+
             return View(carrera);
         }
 
@@ -86,19 +104,38 @@ namespace Grupo4.InstitutoEducativo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre")] Carrera carrera)
+        public IActionResult Edit(int id, [Bind("Id,Nombre")] Carrera carrera, List<int> materiaIds)
         {
             if (id != carrera.Id)
             {
                 return NotFound();
             }
 
+            ValidarMaterias(materiaIds);
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(carrera);
-                    await _context.SaveChangesAsync();
+                    var carreraDb = _context
+                        .Carrera
+                        .Include(x => x.Materias)
+                        .FirstOrDefault(x => x.Id == id);
+
+                    carreraDb.Nombre = carrera.Nombre;
+
+                    foreach(var carreraMateria in carreraDb.Materias)
+                    {
+                        _context.Remove(carreraMateria);
+                    }
+
+                    foreach (var materiaId in materiaIds)
+                    {
+                        carreraDb.Materias.Add(new CarreraMateria { CarreraId = carreraDb.Id, MateriaId = materiaId });
+                    }
+
+                    _context.Update(carreraDb);
+                     _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -113,6 +150,9 @@ namespace Grupo4.InstitutoEducativo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["MateriasId"] = new MultiSelectList(_context.Materia, "Id", "Nombre", materiaIds);
+
             return View(carrera);
         }
 
@@ -148,6 +188,14 @@ namespace Grupo4.InstitutoEducativo.Controllers
         private bool CarreraExists(int id)
         {
             return _context.Carrera.Any(e => e.Id == id);
+        }
+
+        private void ValidarMaterias(List<int> materiasId)
+        {
+            if (materiasId.Count == 0)
+            {
+                ModelState.AddModelError(nameof(Carrera.Materias), "La carrera debe tener al menos una materia");
+            }
         }
     }
 }
