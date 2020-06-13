@@ -7,6 +7,9 @@ namespace Grupo4.InstitutoEducativo.Models
 {
     public class Alumno
     {
+        private const int LEGAJO_MINIMO = 10000;
+        private const int LEGAJO_MAXIMO = 99999;
+
         [Key]
         public int Id { get; set; }
 
@@ -16,12 +19,14 @@ namespace Grupo4.InstitutoEducativo.Models
         [RegularExpression(@"[a-zA-Z áéíóú]*", ErrorMessage = "El campo admite sólo caracteres alfabéticos")]
         public string Nombre { get; set; }
 
-        [Required(ErrorMessage = "La propiedad Legajo es requerida")]
-        [RegularExpression("[0-9][0-9][0-9][0-9][0-9]", ErrorMessage = "El número de legajo deben ser 5 numeros")]
+        [Required(ErrorMessage = "La propiedad Apellido es requerida")]
+        [MaxLength(100, ErrorMessage = "La longitud máxima de un Apellido es de 100 caracteres")]
+        [MinLength(2, ErrorMessage = "La longitud mínima de un Apellido es de 2 caracteres")]
+        [RegularExpression(@"[a-zA-Z áéíóú]*", ErrorMessage = "El campo admite sólo caracteres alfabéticos")]
         public string Apellido { get; set; }
 
         [Required(ErrorMessage = "La propiedad Apellido es requerida")]
-        [RegularExpression("[0-9][0-9][0-9][0-9][0-9]", ErrorMessage = "El número de legajo deben ser 5 numeros")]
+        [Range(LEGAJO_MINIMO, LEGAJO_MAXIMO, ErrorMessage = "El legajo debe ser un entero entre 10000 y 99999")]
         public int Legajo { get; set; }
 
       

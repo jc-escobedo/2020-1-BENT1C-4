@@ -7,6 +7,9 @@ namespace Grupo4.InstitutoEducativo.Models
 {
     public class Profesor
     {
+        private const int LEGAJO_MINIMO = 10000;
+        private const int LEGAJO_MAXIMO = 99999;
+
         [Key]
         public int Id { get; set; }
 
@@ -23,7 +26,7 @@ namespace Grupo4.InstitutoEducativo.Models
         public string Apellido { get; set; }
 
         [Required(ErrorMessage = "La propiedad Legajo es requerida")]
-        [RegularExpression("[0-9][0-9][0-9][0-9][0-9]", ErrorMessage = "El número de legajo deben ser 5 numeros positivos")]
+        [Range(LEGAJO_MINIMO, LEGAJO_MAXIMO, ErrorMessage = "El legajo debe ser un entero entre 10000 y 99999")]
         public int Legajo { get; set; }
 
         [Display(Name = "Materias aplicables")]
