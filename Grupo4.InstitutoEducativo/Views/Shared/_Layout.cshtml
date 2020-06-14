@@ -19,51 +19,50 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <div class="navContainer">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Instituto Educativo</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
+                <div class="navbar-collapse collapse">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item list-group-item-action bg-light">
                             <a class="nav-link text-dark" asp-controller="Profesores" asp-action="Index">Profesores</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="list-group-item list-group-item-action bg-light">
                             <a class="nav-link text-dark" asp-controller="Alumnos" asp-action="Index">Alumnos</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="list-group-item list-group-item-action bg-light">
                             <a class="nav-link text-dark" asp-controller="Carreras" asp-action="Index">Carreras</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="list-group-item list-group-item-action bg-light">
                             <a class="nav-link text-dark" asp-controller="Materias" asp-action="Index">Materias</a>
                         </li>
+                        <li class="list-group-item list-group-item-action bg-light">
+                            <div>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <text>@User.Identity.Name</text>
+                                    <form asp-action="Salir" asp-controller="Cuentas" method="post">
+                                        <button type="submit" class="btn btn-danger">
+                                            Salir
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Cuentas" asp-action="Ingresar" class="btn btn-primary">Login</a>
+                                }
+                            </div>
+                        </li>
                     </ul>
-                </div>
-                <div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <text>@User.Identity.Name</text>
-                        <form asp-action="Salir" asp-controller="Cuentas" method="post">
-                            <button type="submit" class="btn btn-danger">
-                                Salir
-                            </button>
-                        </form>
-                    }
-                    else
-                    {
-                        <a asp-controller="Cuentas" asp-action="Ingresar" class="btn btn-primary">Login</a>
-                    }
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="mainContainer">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @RenderBody()

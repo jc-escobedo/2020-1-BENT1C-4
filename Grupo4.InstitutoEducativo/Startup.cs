@@ -65,7 +65,7 @@ namespace Grupo4.InstitutoEducativo
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Cuentas}/{action=Ingresar}/{id?}");
             });
 
             app.UseCookiePolicy();
