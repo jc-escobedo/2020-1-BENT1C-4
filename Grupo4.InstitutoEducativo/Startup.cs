@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using UsandoEntityFramework.Database;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Grupo4.InstitutoEducativo
 {
@@ -32,9 +29,16 @@ namespace Grupo4.InstitutoEducativo
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // Habilitar la autenticación por cookie
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                // Especificamos que la ruta para login es "/Usuarios/Ingresar" => esto quiere decir que si alguien que no está autenticado intenta ingresar será enviado a la página de login.
+                options.LoginPath = "/Cuentas/Ingresar";
+                options.AccessDeniedPath = "/Cuentas/NoAutorizado";
+                options.LogoutPath = "/Cuentas/Salir";
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
 
             // services.AddDbContext<UsandoEFDbContext>(options => 
             //     options.UseSqlServer("Server=TL-DEV-63\\SQLEXPRESS;Database=alumnos;Integrated Security=SSPI;"));
@@ -54,6 +58,7 @@ namespace Grupo4.InstitutoEducativo
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
@@ -62,6 +67,8 @@ namespace Grupo4.InstitutoEducativo
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseCookiePolicy();
         }
     }
 }

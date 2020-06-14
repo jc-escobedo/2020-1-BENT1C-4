@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Grupo4.InstitutoEducativo.Models.Enums;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -38,5 +40,33 @@ namespace Grupo4.InstitutoEducativo.Models
             }
 
         }
+
+        [ScaffoldColumn(false)]
+        [Display(Name = "Alta")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy H:mm}")]
+        public DateTime FechaAlta { get; set; }
+
+        [ScaffoldColumn(false)]
+        [Display(Name = "Ultima modificación")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy H:mm}")]
+        public DateTime? FechaUltimaModificacion { get; set; }
+
+        [ScaffoldColumn(false)]
+        [Display(Name = "Ultimo acceso")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy H:mm}")]
+        public DateTime? FechaUltimoAcceso { get; set; }
+
+        [Required(ErrorMessage = "Este campo es requerido")]
+        [MaxLength(50, ErrorMessage = "La longitud máxima del campo es de 50 caracteres")]
+        [RegularExpression(@"[a-zA-Z0-9_\-]*", ErrorMessage = "El campo admite sólo caracteres alfanuméricos, guión bajo o guión medio")]
+        [Display(Name = "Nombre de usuario")]
+        public string Username { get; set; }
+
+        [ScaffoldColumn(false)]
+        [Display(Name = "Constraseña")]
+        public byte[] Password { get; set; }
+
+        [Required]
+        public Role Role { get; set; }
     }
 }

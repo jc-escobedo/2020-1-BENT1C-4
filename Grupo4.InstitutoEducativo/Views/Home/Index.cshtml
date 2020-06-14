@@ -2,80 +2,25 @@
     ViewData["Title"] = "Home Page";
 }
 
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Scripts
+{
+    <!-- Este condicional hace que dependiendo del valor que el controller pone en ViewBag.PrimerLogin se cargue o no el script para ser incorporado en la página. -->
+    @if (ViewBag.PrimerLogin)
+    {
+        <script>
+            // Este método de notify está definido en una librería que incorporamos al proyecto que se llama "notify.js"
+            // Para más detalles sobre dicha librería ver https://notifyjs.jpillora.com/
+            $.notify("Hola @User.Identity.Name !!!", {
+                className: "info",
+                position: "top",
+                showDuration: 800
+            });
+        </script>
+    }
 
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Materias" asp-action="Index">Materias</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Profesores" asp-action="Index">Profesores</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="ProfesoresMaterias" asp-action="Index">ProfesoresMaterias</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Carreras" asp-action="Index">Carreras</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="CarrerasMaterias" asp-action="Index">CarrerasMaterias</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Alumnos" asp-action="Index">Alumnos</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="MateriasCursadas" asp-action="Index">MateriasCursadas</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="MateriasCursadasAlumnos" asp-action="Index">MateriasCursadasAlumnos</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    <script>
+        $('#test').datepicker({
+            language: "es"
+        });
+    </script>
+}

@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Ingresar";
+}
+
+<div class="text-center">
+    <h1>Bienvenido</h1>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-offset-4 col-md-4">
+        <form method="post" asp-action="Ingresar" asp-controller="Cuentas">
+            <input type="hidden" value="@ViewBag.ReturnUrl" name="returnUrl" />
+            <div class="text-danger">
+                @ViewBag.Error
+            </div>
+            <div class="form-group">
+                <label laber-for="username" class="control-label">Nombre de usuario:</label>
+                <input name="username" class="form-control" type="text" value="@ViewBag.Username" />
+            </div>
+            <div class="form-group">
+                <label label-for="Password" class="control-label">Contraseña:</label>
+                <input name="password" class="form-control" type="password" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">
+                    Login
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

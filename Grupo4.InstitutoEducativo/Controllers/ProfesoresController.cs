@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupo4.InstitutoEducativo.Models;
 using UsandoEntityFramework.Database;
+using Microsoft.AspNetCore.Authorization;
+using Grupo4.InstitutoEducativo.Models.Enums;
 
 namespace Grupo4.InstitutoEducativo.Controllers
 {
@@ -43,21 +45,20 @@ namespace Grupo4.InstitutoEducativo.Controllers
             return View(profesor);
         }
 
-        // GET: Profesores/Create
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Profesores/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Legajo")] Profesor profesor)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Legajo,Username")] Profesor profesor)
         {
             if (ModelState.IsValid)
             {
+                profesor.FechaUltimaModificacion = profesor.FechaAlta = DateTime.Now;
                 _context.Add(profesor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -65,7 +66,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
             return View(profesor);
         }
 
-        // GET: Profesores/Edit/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,13 +82,14 @@ namespace Grupo4.InstitutoEducativo.Controllers
             return View(profesor);
         }
 
-        // POST: Profesores/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Legajo")] Profesor profesor)
+        public async Task<IActionResult> Edit(int id, [Bind("Nombre,Apellido,Legajo,MateriasAplicables,Id")] Profesor profesor)
         {
+            
+            ModelState.Remove(nameof(Profesor.Username));
+
             if (id != profesor.Id)
             {
                 return NotFound();
@@ -97,7 +99,16 @@ namespace Grupo4.InstitutoEducativo.Controllers
             {
                 try
                 {
-                    _context.Update(profesor);
+                    //Profesor existente en la db
+                    Profesor profesordb = _context.Profesor.Find(profesor.Id);
+
+                    profesordb.Nombre = profesor.Nombre;
+                    profesordb.Apellido = profesor.Apellido;
+                    profesordb.Legajo = profesor.Legajo;
+                    profesordb.MateriasAplicables = profesor.MateriasAplicables;
+                    profesordb.FechaUltimaModificacion = DateTime.Now;
+
+                    _context.Update(profesordb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -116,7 +127,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
             return View(profesor);
         }
 
-        // GET: Profesores/Delete/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

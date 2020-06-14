@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupo4.InstitutoEducativo.Models;
 using UsandoEntityFramework.Database;
+using Microsoft.AspNetCore.Authorization;
+using Grupo4.InstitutoEducativo.Models.Enums;
 
 namespace Grupo4.InstitutoEducativo.Controllers
 {
@@ -43,15 +45,13 @@ namespace Grupo4.InstitutoEducativo.Controllers
             return View(materia);
         }
 
-        // GET: Materias/Create
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Materias/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Descripcion,CupoMaximo")] Materia materia)
@@ -65,7 +65,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
             return View(materia);
         }
 
-        // GET: Materias/Edit/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,9 +81,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
             return View(materia);
         }
 
-        // POST: Materias/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion,CupoMaximo")] Materia materia)
@@ -116,7 +114,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
             return View(materia);
         }
 
-        // GET: Materias/Delete/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +132,7 @@ namespace Grupo4.InstitutoEducativo.Controllers
             return View(materia);
         }
 
-        // POST: Materias/Delete/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

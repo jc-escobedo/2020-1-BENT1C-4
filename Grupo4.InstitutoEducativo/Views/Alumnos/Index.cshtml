@@ -24,6 +24,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.Carrera)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaAlta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaUltimaModificacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaUltimoAcceso)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,6 +53,18 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Carrera.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaAlta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaUltimaModificacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaUltimoAcceso)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
