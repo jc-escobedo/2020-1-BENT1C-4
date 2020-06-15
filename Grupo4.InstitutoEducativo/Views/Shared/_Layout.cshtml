@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Instituto Educativo</title>
-
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     </environment>
@@ -13,7 +13,7 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -40,25 +40,32 @@
                         <li class="list-group-item list-group-item-action bg-light">
                             <a class="nav-link text-dark" asp-controller="Materias" asp-action="Index">Materias</a>
                         </li>
-                        <li class="list-group-item list-group-item-action bg-light">
-                            <div>
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <text>@User.Identity.Name</text>
-                                    <form asp-action="Salir" asp-controller="Cuentas" method="post">
-                                        <button type="submit" class="btn btn-danger">
-                                            Salir
-                                        </button>
-                                    </form>
-                                }
-                                else
-                                {
-                                    <a asp-controller="Cuentas" asp-action="Ingresar" class="btn btn-primary">Login</a>
-                                }
-                            </div>
-                        </li>
                     </ul>
                 </div>
+            </div>
+            <div class="userContainer">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    
+                    
+                    <div class="card text-center" style="width: 90%;">
+                        <div class="card-body">
+                            <h4>
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </h4>
+                            <h5 class="card-title">@User.Identity.Name</h5>
+                            <form asp-action="Salir" asp-controller="Cuentas" method="post">
+                                <button type="submit" class="btn btn-danger">
+                                    Salir
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <a asp-controller="Cuentas" asp-action="Ingresar" class="btn btn-primary">Login</a>
+                }
             </div>
         </nav>
     </header>
